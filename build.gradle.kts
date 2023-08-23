@@ -11,10 +11,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.eclipse.keyple:keyple-gradle:0.2.+") { isChanging = true }
+        classpath("org.eclipse.keypop:keypop-gradle:0.1.+") { isChanging = true }
     }
 }
-apply(plugin = "org.eclipse.keyple")
+apply(plugin = "org.eclipse.keypop")
 
 ///////////////////////////////////////////////////////////////////////////////
 //  APP CONFIGURATION
@@ -45,7 +45,7 @@ tasks {
     spotless {
         java {
             target("src/**/*.java")
-            licenseHeaderFile("${project.rootDir}/LICENSE_MIT_HEADER")
+            licenseHeaderFile("${project.rootDir}/LICENSE_HEADER")
             importOrder("java", "javax", "org", "com", "")
             removeUnusedImports()
             googleJavaFormat()
