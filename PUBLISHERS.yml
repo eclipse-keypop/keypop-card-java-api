@@ -1,0 +1,18 @@
+url: https://github.com/eclipse-keypop/keypop-card-java-api
+organization:
+  name: Eclipse Keypop
+  url: https://keypop.org/
+licenses:
+  - name: MIT license
+    url: https://opensource.org/license/mit/
+    distribution: repo
+developers:
+  - name: Keypop Contributors
+    email: keypop-dev@eclipse.org
+scm:
+  connection: scm:git:git://github.com/eclipse-keypop/keypop-card-java-api.git
+  developerConnection: scm:git:https://github.com/eclipse-keypop/keypop-card-java-api.git
+  url: https://github.com/eclipse-keypop/keypop-card-java-api
+ciManagement:
+  system: Jenkins
+  url: https://ci.eclipse.org/keypop/job/Keypop/job/keypop-card-java-api/
