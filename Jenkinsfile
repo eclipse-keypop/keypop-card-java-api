@@ -16,7 +16,6 @@ pipeline {
       script {
         env.KEYPOP_VERSION = sh(script: 'grep version gradle.properties | cut -d= -f2 | tr -d "[:space:]"', returnStdout: true).trim()
         env.GIT_COMMIT_MESSAGE = sh(script: 'git log --format=%B -1 | head -1 | tr -d "\n"', returnStdout: true)
-        env.SONAR_USER_HOME = '/home/jenkins'
         echo "Building version ${env.KEYPOP_VERSION} in branch ${env.GIT_BRANCH}"
         deployRelease = env.GIT_URL == "https://github.com/eclipse-keypop/${env.PROJECT_NAME}.git" && (env.GIT_BRANCH == "main" || env.GIT_BRANCH == "release-${env.KEYPOP_VERSION}") && env.CHANGE_ID == null && env.GIT_COMMIT_MESSAGE.startsWith("Release ${env.KEYPOP_VERSION}")
         deploySnapshot = !deployRelease && env.GIT_URL == "https://github.com/eclipse-keypop/${env.PROJECT_NAME}.git" && (env.GIT_BRANCH == "main" || env.GIT_BRANCH == "release-${env.KEYPOP_VERSION}") && env.CHANGE_ID == null
@@ -66,16 +65,6 @@ pipeline {
             git log --graph --abbrev-commit --date=relative -n 5
             git push "https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/eclipse-keypop/${PROJECT_NAME}.git" HEAD:gh-pages
             '''
-          }
-        }
-      } }
-    }
-    stage('Publish Code Quality') {
-      when { expression { env.GIT_URL.startsWith('https://github.com/eclipse-keypop/keypop-') } }
-      steps { container('java-builder') {
-        catchError(buildResult: 'SUCCESS', message: 'Unable to log code quality to Sonar.', stageResult: 'FAILURE') {
-          withCredentials([string(credentialsId: 'sonarcloud-token', variable: 'SONAR_LOGIN')]) {
-            sh './gradlew sonarqube --info --stacktrace'
           }
         }
       } }
