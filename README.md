@@ -10,7 +10,7 @@ needed to communicate with the cards and manage the selection mechanisms.
 ## Documentation & Contribution Guide
 
 The full documentation, including the **user guide**, **download information** and **contribution guide**, is available
-on the Keyple website [keypop.org](https://keypop.org).
+on the Keyple website [keypop.org](https://eclipse-keypop.github.io/keypop-website/).
 
 ## API documentation
 
