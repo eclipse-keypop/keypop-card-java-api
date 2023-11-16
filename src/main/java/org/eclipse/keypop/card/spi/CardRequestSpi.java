@@ -1,13 +1,12 @@
-/* **************************************************************************************
+/* ******************************************************************************
  * Copyright (c) 2023 Calypso Networks Association https://calypsonet.org/
  *
- * This file is part of Eclipse Keypop.
+ * This program and the accompanying materials are made available under the
+ * terms of the MIT License which is available at
+ * https://opensource.org/licenses/MIT.
  *
- * Eclipse Keypop is free software: you can redistribute it and/or modify
- * it under the terms of the MIT License. A copy of the License is located at
- *
- * http://opensource.org/licenses/MIT
- ************************************************************************************** */
+ * SPDX-License-Identifier: MIT
+ ****************************************************************************** */
 package org.eclipse.keypop.card.spi;
 
 import java.util.List;
