@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [2.0.0] - 2023-11-27
 :warning: The project has been migrated from the [Calypsonet Terminal Card API](https://github.com/calypsonet/calypsonet-terminal-card-java-api)
 GitHub repository.
 ### Changed
@@ -30,5 +32,6 @@ GitHub repository.
 ## [1.0.0] - 2021-10-06
 This is the initial release.
 
-[unreleased]: https://github.com/calypsonet/calypsonet-terminal-card-java-api/compare/1.0.0...HEAD
+[unreleased]: https://github.com/eclipse-keypop/keypop-card-java-api/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/eclipse-keypop/keypop-card-java-api/releases/tag/2.0.0
 [1.0.0]: https://github.com/calypsonet/calypsonet-terminal-card-java-api/releases/tag/1.0.0
