@@ -52,7 +52,8 @@ public interface ProxyReaderApi {
    * @since 1.0.0
    */
   CardResponseApi transmitCardRequest(CardRequestSpi cardRequest, ChannelControl channelControl)
-      throws ReaderBrokenCommunicationException, CardBrokenCommunicationException,
+      throws ReaderBrokenCommunicationException,
+          CardBrokenCommunicationException,
           UnexpectedStatusWordException;
 
   /**

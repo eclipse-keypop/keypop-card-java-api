@@ -75,7 +75,7 @@ public class AbstractApduException extends Exception {
    * @return True if all expected responses have been received.
    * @since 1.0.0
    */
-  boolean isCardResponseComplete() {
+  public boolean isCardResponseComplete() {
     return isCardResponseComplete;
   }
 }
