@@ -23,6 +23,9 @@ public interface ApduRequestSpi {
   /**
    * Gets the APDU bytes to be sent to the card.
    *
+   * <p>For <b>case 4</b> APDU commands, the <b>Le</b> field is <b>mandatory</b> and shall be set to
+   * <b>00h</b>.
+   *
    * @return An array of at least 4 bytes.
    * @since 1.0.0
    */
