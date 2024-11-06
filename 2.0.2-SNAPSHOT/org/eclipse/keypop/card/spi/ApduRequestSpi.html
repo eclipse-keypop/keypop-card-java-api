@@ -133,7 +133,10 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getApdu()">
 <h3>getApdu</h3>
 <div class="member-signature"><span class="return-type">byte[]</span>&nbsp;<span class="element-name">getApdu</span>()</div>
-<div class="block">Gets the APDU bytes to be sent to the card.</div>
+<div class="block">Gets the APDU bytes to be sent to the card.
+
+ <p>For <b>case 4</b> APDU commands, the <b>Le</b> field is <b>mandatory</b> and shall be set to
+ <b>00h</b>.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>An array of at least 4 bytes.</dd>
