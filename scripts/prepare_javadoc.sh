@@ -21,13 +21,8 @@ cd $repository_name
 echo "Checkout gh-pages branch..."
 git checkout -f gh-pages
 
-echo "Delete existing SNAPSHOT directories except the current one..."
-for snapshot in *-SNAPSHOT/; do
-    if [ "$snapshot" != "$version/" ]; then
-        echo "Removing old SNAPSHOT: $snapshot"
-        rm -rf "$snapshot"
-    fi
-done
+echo "Delete existing SNAPSHOT directory..."
+rm -rf *-SNAPSHOT
 
 echo "Create target directory $version..."
 mkdir $version
@@ -64,11 +59,13 @@ sorted_dirs=$(ls -d [0-9]*/ | cut -f1 -d'/' | sort -Vr)
 # Loop through each sorted directory
 for directory in $sorted_dirs
 do
-    # If this is the stable version, write latest-stable entry first
-    if [ "$directory" = "$latest_stable" ]; then
-        echo "| latest-stable ($latest_stable) | [API documentation](latest-stable) |" >> list_versions.md
-    fi
-    echo "| $directory | [API documentation]($directory) |" >> list_versions.md
+  # If this is the stable version, write latest-stable entry first
+  if [ "$directory" = "$latest_stable" ]; then
+      echo "| **$directory (latest stable)** | [API documentation](latest-stable) |" >> list_versions.md
+  else
+      echo "| $directory | [API documentation]($directory) |" >> list_versions.md
+  fi
+
 done
 
 echo "Computed all versions:"
