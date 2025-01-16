@@ -9,7 +9,7 @@ Keypop:
 ## Quick Start
 
 1. **Read the Contribution Guidelines**: Before starting, please visit our detailed contributing guide at the
-[Eclipse Keypop Contribution Guide](https://eclipse-keypop.github.io/keypop-website/community/contributing/). 
+[Eclipse Keypop Contribution Guide](https://keypop.org/community/contributing/). 
 This guide covers all the necessary information about contributing to the project.
 
 2. **Join the mailing list**: Connect with other contributors on our 
