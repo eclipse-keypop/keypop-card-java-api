@@ -17,7 +17,7 @@ on the Keypop website [keypop.org](https://keypop.org/).
 API Javadoc is available [here](https://docs.keypop.org/keypop-card-java-api).
 
 API documentation and class diagram is available
-[here](https://terminal-api.calypsonet.org/apis/calypsonet-terminal-card-api/).
+[here](https://card-uml.terminal-api.calypsonet.org/).
 
 ## About the source code
 
