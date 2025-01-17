@@ -1,12 +1,8 @@
-name: Trigger Centralized Documentation Update
+name: Check Doc Updates and Trigger Documentation Update
 
 on:
-  push:
-    branches:
-      - doc
-    paths:
-      - '*/latest-stable/**'
-      - 'list_versions.md'
+  schedule:
+    - cron: '0 * * * *'  # Toutes les heures
   workflow_dispatch:
 
 permissions:
@@ -26,12 +22,35 @@ jobs:
             echo "has-token=false" >> "$GITHUB_OUTPUT"
           fi
 
-  notify-doc-site:
+  check-and-notify:
     needs: check-secret
     if: needs.check-secret.outputs.has-token == 'true'
     runs-on: ubuntu-latest
     steps:
+      - name: Check last commit time
+        id: check-updates
+        run: |
+          RESPONSE=$(curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/commits/doc")
+          
+          LAST_COMMIT_DATE=$(echo $RESPONSE | jq -r '.commit.author.date')
+          LAST_COMMIT_TIME=$(date -d "$LAST_COMMIT_DATE" +%s)
+          CURRENT_TIME=$(date +%s)
+          
+          TIME_DIFF=$((CURRENT_TIME - LAST_COMMIT_TIME))
+          
+          if [ $TIME_DIFF -le 3600 ]; then
+            echo "Recent changes found (less than 1 hour old)"
+            echo "should-update=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No recent changes"
+            echo "should-update=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Repository Dispatch Event
+        if: steps.check-updates.outputs.should-update == 'true'
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.ORG_GITHUB_BOT_TOKEN }}
