@@ -27,26 +27,37 @@ jobs:
     if: needs.check-secret.outputs.has-token == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: Check last commit time
+      - name: Check commits dates
         id: check-updates
         run: |
-          RESPONSE=$(curl -s \
+          # Get last commit date from current repo's doc branch
+          DOC_RESPONSE=$(curl -s \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             "https://api.github.com/repos/${{ github.repository }}/commits/doc")
           
-          LAST_COMMIT_DATE=$(echo $RESPONSE | jq -r '.commit.author.date')
-          LAST_COMMIT_TIME=$(date -d "$LAST_COMMIT_DATE" +%s)
-          CURRENT_TIME=$(date +%s)
+          DOC_COMMIT_DATE=$(echo $DOC_RESPONSE | jq -r '.commit.author.date')
+          DOC_COMMIT_TIME=$(date -d "$DOC_COMMIT_DATE" +%s)
           
-          TIME_DIFF=$((CURRENT_TIME - LAST_COMMIT_TIME))
+          # Get last commit date from keypop-api-docs gh-pages branch
+          DOCS_RESPONSE=$(curl -s \
+            -H "Authorization: token ${{ secrets.ORG_GITHUB_BOT_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/eclipse-keypop/keypop-api-docs/commits/gh-pages")
           
-          if [ $TIME_DIFF -le 3600 ]; then
-            echo "Recent changes found (less than 1 hour old)"
-            echo "Time difference (seconds): $TIME_DIFF"
+          DOCS_COMMIT_DATE=$(echo $DOCS_RESPONSE | jq -r '.commit.author.date')
+          DOCS_COMMIT_TIME=$(date -d "$DOCS_COMMIT_DATE" +%s)
+          
+          # Compare dates
+          if [ $DOC_COMMIT_TIME -gt $DOCS_COMMIT_TIME ]; then
+            echo "Doc branch has newer changes"
+            echo "Doc commit time: $(date -d @$DOC_COMMIT_TIME)"
+            echo "Docs commit time: $(date -d @$DOCS_COMMIT_TIME)"
             echo "should-update=true" >> "$GITHUB_OUTPUT"
           else
-            echo "No recent changes"
+            echo "No new changes to publish"
+            echo "Doc commit time: $(date -d @$DOC_COMMIT_TIME)"
+            echo "Docs commit time: $(date -d @$DOCS_COMMIT_TIME)"
             echo "should-update=false" >> "$GITHUB_OUTPUT"
           fi
 
