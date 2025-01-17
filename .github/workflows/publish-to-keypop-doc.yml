@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - doc
+    paths:
+      - '*/latest-stable/**'
+      - 'list_versions.md'
   workflow_dispatch:
 
 permissions:
