@@ -1,11 +1,9 @@
 name: Trigger Centralized Documentation Update
 
 on:
-  workflow_run:
-    workflows:
-      - "pages-build-deployment"
-    types:
-      - completed
+  push:
+    branches:
+      - doc
   workflow_dispatch:
 
 permissions:
