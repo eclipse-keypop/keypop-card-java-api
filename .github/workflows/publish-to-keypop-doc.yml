@@ -2,7 +2,7 @@ name: Check Doc Updates and Trigger Documentation Update
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Toutes les heures
+    - cron: '0 * * * *'  # Every hour
   workflow_dispatch:
 
 permissions:
@@ -43,6 +43,7 @@ jobs:
           
           if [ $TIME_DIFF -le 3600 ]; then
             echo "Recent changes found (less than 1 hour old)"
+            echo "Time difference (seconds): $TIME_DIFF"
             echo "should-update=true" >> "$GITHUB_OUTPUT"
           else
             echo "No recent changes"
