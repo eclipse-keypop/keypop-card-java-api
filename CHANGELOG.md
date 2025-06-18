@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed JUnit configuration.
 ### Changed
 - Added clarification concerning the construction of "case 4" APDU commands in the `ApduRequestSpi` interface.
+- Migrated the CI pipeline from Jenkins to GitHub Actions.
 
 ## [2.0.1] - 2024-04-12
 ### Changed
