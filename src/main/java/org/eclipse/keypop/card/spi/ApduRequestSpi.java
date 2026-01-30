@@ -50,4 +50,14 @@ public interface ApduRequestSpi {
    * @since 1.0.0
    */
   String getInfo();
+
+  /**
+   * Gets the maximum expected response time in milliseconds for this APDU command.
+   *
+   * <p>This value can be used to detect abnormally slow responses.
+   *
+   * @return Null if no maximum expected response time has been defined.
+   * @since 2.1.0
+   */
+  Integer getMaxExpectedResponseTime();
 }

@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Added `getMaxExpectedResponseTime()` method to the `ApduRequestSpi` interface to define the maximum expected response
+  time in milliseconds for an APDU command.
+- Added `getResponseTime()` method to the `ApduResponseApi` interface to retrieve the actual response time in
+  milliseconds.
+- Added `UnexpectedResponseTimeException` exception class to handle cases where the APDU response time is unexpected or
+  exceeds the configured limit.
 ### Fixed
 - Fixed JUnit configuration.
 ### Changed

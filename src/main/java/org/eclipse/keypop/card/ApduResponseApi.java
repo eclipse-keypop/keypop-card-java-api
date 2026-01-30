@@ -47,4 +47,14 @@ public interface ApduResponseApi extends Serializable {
    * @since 1.0.0
    */
   int getStatusWord();
+
+  /**
+   * Gets the response time in milliseconds for this APDU command.
+   *
+   * <p>This represents the actual time taken to receive the response from the card.
+   *
+   * @return Null if the response time was not measured.
+   * @since 2.1.0
+   */
+  Integer getResponseTime();
 }
