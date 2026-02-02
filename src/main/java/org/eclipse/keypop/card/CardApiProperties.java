@@ -23,7 +23,7 @@ public final class CardApiProperties {
    *
    * @since 1.0.0
    */
-  public static final String VERSION = "2.0";
+  public static final String VERSION = "2.1";
 
   /** Private constructor */
   private CardApiProperties() {}
