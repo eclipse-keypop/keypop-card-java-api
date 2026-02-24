@@ -51,12 +51,15 @@ public interface ProxyReaderApi {
    * @throws CardBrokenCommunicationException If the communication with the card has failed.
    * @throws UnexpectedStatusWordException If any of the APDUs returned an unexpected status word
    *     and the card request specified the need to check them.
+   * @throws UnexpectedResponseTimeException If any of the APDUs exceeded the maximum response time
+   *     specified in the APDU request.
    * @since 1.0.0
    */
   CardResponseApi transmitCardRequest(CardRequestSpi cardRequest, ChannelControl channelControl)
       throws ReaderBrokenCommunicationException,
           CardBrokenCommunicationException,
-          UnexpectedStatusWordException;
+          UnexpectedStatusWordException,
+          UnexpectedResponseTimeException;
 
   /**
    * Releases the communication channel previously established with the card.
