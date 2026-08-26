@@ -12,10 +12,12 @@
 package org.eclipse.keypop.card;
 
 /**
- * Indicates that the parsing of the card selection response has failed.
+ * Indicates that the parsing of the card selection response has failed, the most likely reason
+ * being that the Select Application command returned an invalid FCI structure.
  *
- * <p>The most likely reason is that the select application command returned an invalid FCI
- * structure.
+ * <p>See <a
+ * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#type_ParseException">ParseException</a>
+ * for the normative contract.
  *
  * @since 2.0.0
  */

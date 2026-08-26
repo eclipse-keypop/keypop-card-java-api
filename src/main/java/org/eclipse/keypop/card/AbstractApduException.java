@@ -14,12 +14,17 @@ package org.eclipse.keypop.card;
 import org.eclipse.keypop.card.spi.CardRequestSpi;
 
 /**
- * Generic exception carrying response data received from the card until a communication failure
- * occurs or an unexpected APDU status word is received.
+ * Base class of every exception raised by the transmission operations of {@link ProxyReaderApi},
+ * carrying the response data received from the card until the failure occurred together with a
+ * completeness flag.
+ *
+ * <p>See <a
+ * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#type_AbstractApduException">AbstractApduException</a>
+ * for the normative contract.
  *
  * @since 1.0.0
  */
-public class AbstractApduException extends Exception {
+public abstract class AbstractApduException extends Exception {
 
   private final CardResponseApi cardResponseApi;
   private final boolean isCardResponseComplete;
@@ -61,9 +66,13 @@ public class AbstractApduException extends Exception {
   }
 
   /**
-   * Gets the response data received so far.
+   * Returns the responses collected before the failure occurred.
    *
-   * @return A non-null reference.
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_AbstractApduException_getCardResponse">AbstractApduException.getCardResponse</a>
+   * for the normative contract.
+   *
+   * @return Null if no response was collected.
    * @since 1.0.0
    */
   public CardResponseApi getCardResponse() {
@@ -71,8 +80,12 @@ public class AbstractApduException extends Exception {
   }
 
   /**
-   * Indicates if all the responses expected from the corresponding {@link CardRequestSpi} have been
-   * received.
+   * Returns whether all the responses expected from the corresponding {@link CardRequestSpi} have
+   * been received.
+   *
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_AbstractApduException_isCardResponseComplete">AbstractApduException.isCardResponseComplete</a>
+   * for the normative contract.
    *
    * @return True if all expected responses have been received.
    * @since 1.0.0

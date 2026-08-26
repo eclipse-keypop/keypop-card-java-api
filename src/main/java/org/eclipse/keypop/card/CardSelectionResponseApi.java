@@ -15,31 +15,38 @@ import org.eclipse.keypop.card.spi.CardRequestSpi;
 import org.eclipse.keypop.card.spi.CardSelectionRequestSpi;
 
 /**
- * Data from the start-up phase with the card: selection data and any additional responses.
+ * Data observed during the start-up phase with the card: the selection step itself, the channel on
+ * which the card has been placed and any additional commands executed afterwards.
  *
- * <p>Includes the status of the selection itself and the responses to any commands that may have
- * been executed afterward.
+ * <p>See <a
+ * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#type_CardSelectionResponseApi">CardSelectionResponseApi</a>
+ * for the normative contract.
  *
- * @see CardSelectionRequestSpi
  * @since 1.0.0
  */
 public interface CardSelectionResponseApi {
 
   /**
-   * Gets the card's power-on data.
+   * Returns the logical channel number on which the card has been placed by the selection, 0 for a
+   * single-channel selection scenario.
    *
-   * <p>The power-on data is defined as the data retrieved by the reader when the card is inserted.
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_CardSelectionResponseApi_getChannel">CardSelectionResponseApi.getChannel</a>
+   * for the normative contract.
    *
-   * <p>In the case of a contact reader, this is the Answer To Reset data (ATR) defined by ISO7816.
+   * @return A non-negative value.
+   * @since 3.0.0
+   */
+  int getChannel();
+
+  /**
+   * Returns the card's power-on data, i.e. the data retrieved by the reader when the card is
+   * inserted, as a string that may be either a hexadecimal string or any other relevant
+   * representation.
    *
-   * <p>In the case of a contactless reader, the reader decides what this data is.<br>
-   * Some contactless readers provide a virtual ATR (partially standardized by the PC/SC standard),
-   * but other devices can have their own definition, including for example elements from the
-   * anti-collision stage of the ISO14443 protocol (ATQA, ATQB, ATS, SAK, etc) or any proprietary
-   * definitions.
-   *
-   * <p>These data being variable from one reader to another, they are defined here in string format
-   * which can be either a hexadecimal string or any other relevant information.
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_CardSelectionResponseApi_getPowerOnData">CardSelectionResponseApi.getPowerOnData</a>
+   * for the normative contract.
    *
    * @return Null if no power-on data is available.
    * @since 1.0.0
@@ -47,8 +54,12 @@ public interface CardSelectionResponseApi {
   String getPowerOnData();
 
   /**
-   * Gets the {@link ApduResponseApi} received from the card in response to the <b>Select
+   * Returns the {@link ApduResponseApi} received from the card in response to the <b>Select
    * Application</b> command.
+   *
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_CardSelectionResponseApi_getSelectApplicationResponse">CardSelectionResponseApi.getSelectApplicationResponse</a>
+   * for the normative contract.
    *
    * @return Null if no Select Application command was performed.
    * @since 1.0.0
@@ -56,7 +67,11 @@ public interface CardSelectionResponseApi {
   ApduResponseApi getSelectApplicationResponse();
 
   /**
-   * Gives the selection process status.
+   * Returns whether the inserted card matches the selection filters.
+   *
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_CardSelectionResponseApi_hasMatched">CardSelectionResponseApi.hasMatched</a>
+   * for the normative contract.
    *
    * @return True if the card inserted matches the selection filters.
    * @since 1.0.0
@@ -64,10 +79,14 @@ public interface CardSelectionResponseApi {
   boolean hasMatched();
 
   /**
-   * Gets the responses of the card to the requests present in the {@link CardRequestSpi} from the
+   * Returns the responses of the card to the requests present in the {@link CardRequestSpi} of the
    * {@link CardSelectionRequestSpi}.
    *
-   * @return Null if no requests have been set.
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_CardSelectionResponseApi_getCardResponse">CardSelectionResponseApi.getCardResponse</a>
+   * for the normative contract.
+   *
+   * @return Null if no additional command was executed.
    * @since 1.0.0
    */
   CardResponseApi getCardResponse();

@@ -15,22 +15,24 @@ import org.eclipse.keypop.card.CardSelectionResponseApi;
 import org.eclipse.keypop.card.ParseException;
 
 /**
- * Extension of the card selection for a specific card extension.
+ * Card extension facet driving a selection case: builds the selection request and parses the
+ * resulting response into a smart card. An implementation of this SPI is required to also implement
+ * the <b>CardSelectionExtension</b> interface of the Reader API.
  *
- * <p>Provides the {@link CardSelectionRequestSpi} and interprets the result to provide a {@link
- * SmartCardSpi}.
- *
- * <p>Backside of the <b>org.eclipse.keypop.reader.selection.spi.CardSelectionExtension</b>
- * interface present in the <b>Keypop Reader API</b>.
- *
- * <p>An adapter of this interface must also implement <b>CardSelectionExtension</b>.
+ * <p>See <a
+ * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#type_CardSelectionExtensionSpi">CardSelectionExtensionSpi</a>
+ * for the normative contract.
  *
  * @since 2.0.0
  */
 public interface CardSelectionExtensionSpi {
 
   /**
-   * Gets the card selection request containing the selection data prepared for this selection.
+   * Returns the request to use when executing this selection case.
+   *
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_CardSelectionExtensionSpi_getCardSelectionRequest">CardSelectionExtensionSpi.getCardSelectionRequest</a>
+   * for the normative contract.
    *
    * @return A non-null reference.
    * @since 1.0.0
@@ -38,8 +40,12 @@ public interface CardSelectionExtensionSpi {
   CardSelectionRequestSpi getCardSelectionRequest();
 
   /**
-   * Analyzes the response received from the card during the selection process and creates a {@link
+   * Parses the response of an executed selection case to produce the corresponding {@link
    * SmartCardSpi}.
+   *
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_CardSelectionExtensionSpi_parse">CardSelectionExtensionSpi.parse</a>
+   * for the normative contract.
    *
    * @param cardSelectionResponseApi The card selection response.
    * @return A non-null reference.

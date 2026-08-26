@@ -16,37 +16,27 @@ import java.util.List;
 import org.eclipse.keypop.card.spi.CardRequestSpi;
 
 /**
- * Group of multiple APDU responses.
+ * Group of APDU responses received from the card after the execution of a {@link CardRequestSpi},
+ * made serializable so that it can be transported across distributed boundaries.
  *
- * <p>Contains a list of {@link ApduResponseApi} received from the card in response to a {@link
- * CardRequestSpi} and the associated execution status.
+ * <p>See <a
+ * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#type_CardResponseApi">CardResponseApi</a>
+ * for the normative contract.
  *
- * <p>The execution status includes the state of the logical channel after the operation and the
- * information saying whether a response is present for all APDUs in the {@link CardRequestSpi}.
- *
- * <p>Responses may be missing when this object is embedded in an {@link AbstractApduException}, for
- * example, if the card is removed during processing or if an unsuccessful status word was received
- * and processing was requested to be stopped in this case (see {@link
- * CardRequestSpi#stopOnUnsuccessfulStatusWord()}).
- *
- * @see CardRequestSpi
  * @since 1.0.0
  */
 public interface CardResponseApi extends Serializable {
 
   /**
-   * Gets a list of all responses received to the executed APDU requests.
+   * Returns the responses received for the executed APDU requests, in the same order in which the
+   * requests were submitted.
+   *
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_CardResponseApi_getApduResponses">CardResponseApi.getApduResponses</a>
+   * for the normative contract.
    *
    * @return A non-null list, empty if there is no response.
    * @since 1.0.0
    */
   List<ApduResponseApi> getApduResponses();
-
-  /**
-   * Gets the state of the logical channel following the execution of the request.
-   *
-   * @return True if the logical channel is open.
-   * @since 1.0.0
-   */
-  boolean isLogicalChannelOpen();
 }

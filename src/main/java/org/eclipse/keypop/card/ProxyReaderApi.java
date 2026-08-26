@@ -11,58 +11,92 @@
  ************************************************************************************** */
 package org.eclipse.keypop.card;
 
-import org.eclipse.keypop.card.spi.ApduRequestSpi;
 import org.eclipse.keypop.card.spi.CardRequestSpi;
+import org.eclipse.keypop.card.spi.MultichannelSmartCardSpi;
+import org.eclipse.keypop.card.spi.SmartCardSpi;
 
 /**
- * Reader able to transmit card requests and having control over the physical channel.
+ * Reader-side facet exposing the APDU transmission and channel closure operations to card
+ * extensions, an adapter of this interface being required to also implement the <b>CardReader</b>
+ * interface of the Reader API.
  *
- * <p>Backside of the <b>org.eclipse.keypop.reader.CardReader</b> interface present in the <b>Keypop
- * Reader API</b>.
- *
- * <p>An adapter of this interface must also implement <b>CardReader</b>.
- *
- * <p>To use this API, simply cast a <b>CardReader</b> as a <b>ProxyReaderApi</b>.
+ * <p>See <a
+ * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#type_ProxyReaderApi">ProxyReaderApi</a>
+ * for the normative contract.
  *
  * @since 1.0.0
  */
 public interface ProxyReaderApi {
 
   /**
-   * Transmits a {@link CardRequestSpi}, applies the provided {@link ChannelControl} policy and
-   * returns a {@link CardResponseApi}.
+   * Transmits the provided card request to the smart card identified by the provided SPI, the
+   * logical channel remaining open afterwards.
    *
-   * <p>The APDUs ({@link ApduRequestSpi}) contained in the {@link CardRequestSpi} are sent to the
-   * card, their responses ({@link ApduResponseApi}) are added to a new list ({@link
-   * CardResponseApi}).
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_ProxyReaderApi_transmitCardRequest">ProxyReaderApi.transmitCardRequest</a>
+   * for the normative contract.
    *
-   * <p><b>Note:</b> in case of an error when sending an APDU (communication error, unexpected
-   * status word), an {@link AbstractApduException} exception is thrown. Any responses from
-   * previously transmitted APDU commands are attached to this exception.<br>
-   * This allows the calling application to be tolerant to card tearing and to retrieve the partial
-   * response to the {@link CardRequestSpi} or to have strict control over the APDUs sent to the
-   * card (see {@link CardRequestSpi#stopOnUnsuccessfulStatusWord()}).
-   *
-   * @param cardRequest The card request.
-   * @param channelControl The channel control policy to apply.
+   * @param cardRequest The card request to transmit.
+   * @param smartCard The smart card SPI identifying the target.
    * @return A non-null reference.
    * @throws IllegalArgumentException If one of the provided parameters is null.
    * @throws ReaderBrokenCommunicationException If the communication with the reader has failed.
-   * @throws CardBrokenCommunicationException If the communication with the card has failed.
+   * @throws CardBrokenCommunicationException If the communication with the card has failed or if
+   *     the smart card is no longer active.
    * @throws UnexpectedStatusWordException If any of the APDUs returned an unexpected status word
    *     and the card request specified the need to check them.
-   * @since 1.0.0
+   * @throws ApduExchangeDurationExceededException If a measured APDU exchange duration exceeded the
+   *     bound declared on the request.
+   * @since 3.0.0
    */
-  CardResponseApi transmitCardRequest(CardRequestSpi cardRequest, ChannelControl channelControl)
+  CardResponseApi transmitCardRequest(CardRequestSpi cardRequest, SmartCardSpi smartCard)
       throws ReaderBrokenCommunicationException,
           CardBrokenCommunicationException,
-          UnexpectedStatusWordException;
+          UnexpectedStatusWordException,
+          ApduExchangeDurationExceededException;
 
   /**
-   * Releases the communication channel previously established with the card.
+   * Transmits the provided card request to the smart card identified by the provided SPI and, upon
+   * successful completion, closes the corresponding logical channel and deactivates the smart card.
    *
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_ProxyReaderApi_transmitCardRequestAndCloseChannel">ProxyReaderApi.transmitCardRequestAndCloseChannel</a>
+   * for the normative contract.
+   *
+   * @param cardRequest The card request to transmit.
+   * @param multichannelSmartCard The multi-channel smart card SPI identifying the target.
+   * @return A non-null reference.
+   * @throws IllegalArgumentException If one of the provided parameters is null.
    * @throws ReaderBrokenCommunicationException If the communication with the reader has failed.
-   * @since 1.0.0
+   * @throws CardBrokenCommunicationException If the communication with the card has failed or if
+   *     the smart card is no longer active.
+   * @throws UnexpectedStatusWordException If any of the APDUs returned an unexpected status word
+   *     and the card request specified the need to check them.
+   * @throws ApduExchangeDurationExceededException If a measured APDU exchange duration exceeded the
+   *     bound declared on the request.
+   * @since 3.0.0
    */
-  void releaseChannel() throws ReaderBrokenCommunicationException;
+  CardResponseApi transmitCardRequestAndCloseChannel(
+      CardRequestSpi cardRequest, MultichannelSmartCardSpi multichannelSmartCard)
+      throws ReaderBrokenCommunicationException,
+          CardBrokenCommunicationException,
+          UnexpectedStatusWordException,
+          ApduExchangeDurationExceededException;
+
+  /**
+   * Closes the logical channel of the smart card identified by the provided SPI and deactivates the
+   * smart card, this operation being idempotent.
+   *
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_ProxyReaderApi_closeChannel">ProxyReaderApi.closeChannel</a>
+   * for the normative contract.
+   *
+   * @param multichannelSmartCard The multi-channel smart card SPI identifying the target.
+   * @throws IllegalArgumentException If the provided parameter is null.
+   * @throws ReaderBrokenCommunicationException If the communication with the reader has failed.
+   * @throws CardBrokenCommunicationException If the communication with the card has failed.
+   * @since 3.0.0
+   */
+  void closeChannel(MultichannelSmartCardSpi multichannelSmartCard)
+      throws ReaderBrokenCommunicationException, CardBrokenCommunicationException;
 }
