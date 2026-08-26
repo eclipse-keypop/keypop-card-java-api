@@ -12,21 +12,25 @@
 package org.eclipse.keypop.card.spi;
 
 import java.util.List;
-import org.eclipse.keypop.card.ApduResponseApi;
 
 /**
- * Request grouping multiple APDUs to be executed consecutively.
+ * Ordered list of {@link ApduRequestSpi} to be executed consecutively against the card, along with
+ * a flag indicating whether processing stops on an unexpected status word.
  *
- * <p>Contains a list of {@link ApduRequestSpi} to be sent to a card and a flag indicating whether
- * to stop processing in case of an unexpected status word in response to one of the APDUs.
+ * <p>See <a
+ * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#type_CardRequestSpi">CardRequestSpi</a>
+ * for the normative contract.
  *
- * @see ApduResponseApi
  * @since 1.0.0
  */
 public interface CardRequestSpi {
 
   /**
-   * Gets the list of {@link ApduRequestSpi}.
+   * Returns the ordered list of APDU requests to be executed.
+   *
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_CardRequestSpi_getApduRequests">CardRequestSpi.getApduRequests</a>
+   * for the normative contract.
    *
    * @return A not empty list.
    * @since 1.0.0
@@ -34,8 +38,12 @@ public interface CardRequestSpi {
   List<ApduRequestSpi> getApduRequests();
 
   /**
-   * Indicates if the processing of the requests must stop when an unexpected status word is
-   * received.
+   * Returns whether the iteration must stop at the first APDU whose response status word is not in
+   * its successful status words.
+   *
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_CardRequestSpi_stopOnUnsuccessfulStatusWord">CardRequestSpi.stopOnUnsuccessfulStatusWord</a>
+   * for the normative contract.
    *
    * @return True if the process must stop at the first unsuccessful status word received.
    * @since 1.0.0

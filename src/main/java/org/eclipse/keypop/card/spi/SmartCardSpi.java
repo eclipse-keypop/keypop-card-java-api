@@ -12,12 +12,26 @@
 package org.eclipse.keypop.card.spi;
 
 /**
- * Marker interface providing run-time type information about data defining the
- * <b>org.eclipse.keypop.reader.selection.spi.SmartCard</b> resulting of the selection process
- * provided by the <b>Keypop Reader API</b>.
+ * Card extension facet of a successfully selected smart card, an implementation of this SPI being
+ * required to also implement the <b>SmartCard</b> interface of the Reader API.
  *
- * <p>An adapter of this interface must also implement <b>SmartCard</b>.
+ * <p>See <a
+ * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#type_SmartCardSpi">SmartCardSpi</a>
+ * for the normative contract.
  *
  * @since 1.0.0
  */
-public interface SmartCardSpi {}
+public interface SmartCardSpi {
+
+  /**
+   * Marks this smart card as no longer active, so that the corresponding <b>SmartCard</b> exposed
+   * to the application reports an inactive state. This operation is idempotent.
+   *
+   * <p>See <a
+   * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#op_SmartCardSpi_deactivate">SmartCardSpi.deactivate</a>
+   * for the normative contract.
+   *
+   * @since 3.0.0
+   */
+  void deactivate();
+}

@@ -5,9 +5,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+:warning: Major version aligning the API with version `3.0` of the
+[CNA Terminal Card API specification](https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/).
+This release is **not** backward compatible with `2.x`.
+### Added
+- `MultichannelSmartCardSpi`: multi-channel variant of `SmartCardSpi`, exposing the logical channel number via
+  `getChannel()`.
+- `ApduExchangeDurationExceededException`: raised when the effective duration of an APDU exchange exceeds the bound
+  declared on the request.
+- `SmartCardSpi.deactivate()`: marks the smart card as no longer active.
+- `ProxyReaderApi.transmitCardRequestAndCloseChannel(CardRequestSpi, MultichannelSmartCardSpi)` and
+  `ProxyReaderApi.closeChannel(MultichannelSmartCardSpi)`.
+- `ApduRequestSpi.getApduExchangeMaxDuration()` and `ApduResponseApi.getApduExchangeDuration()`: optional
+  software-level control of the APDU exchange execution time.
+- `CardSelectionResponseApi.getChannel()`: logical channel on which the card has been placed by the selection.
+### Changed
+- `ProxyReaderApi.transmitCardRequest(CardRequestSpi, ChannelControl)` ->
+  `transmitCardRequest(CardRequestSpi, SmartCardSpi)`: the target is now identified by the smart card SPI, which
+  carries the channel routing, the active-state check and the deactivation.
+- `AbstractApduException` is now declared `abstract`, in conformance with the specification.
+- `AbstractApduException.getCardResponse()` is documented as nullable.
+### Removed
+- `ChannelControl`: replaced by the dedicated operations `transmitCardRequestAndCloseChannel` and `closeChannel`.
+- `ProxyReaderApi.releaseChannel()`: replaced by `closeChannel(MultichannelSmartCardSpi)`.
+- `CardResponseApi.isLogicalChannelOpen()`: the channel state is no longer carried by the response.
 ### Fixed
 - Fixed JUnit configuration.
-### Changed
+### Changed (previously unreleased)
 - Added clarification concerning the construction of "case 4" APDU commands in the `ApduRequestSpi` interface.
 - Migrated the CI pipeline from Jenkins to GitHub Actions.
 

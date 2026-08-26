@@ -14,8 +14,12 @@ package org.eclipse.keypop.card;
 import org.eclipse.keypop.card.spi.CardRequestSpi;
 
 /**
- * Exception carrying response data received from the card until a communication failure with the
- * reader occurs.
+ * Indicates that the communication with the reader has failed during the execution of a card
+ * request.
+ *
+ * <p>See <a
+ * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#type_ReaderBrokenCommunicationException">ReaderBrokenCommunicationException</a>
+ * for the normative contract.
  *
  * @since 1.0.0
  */

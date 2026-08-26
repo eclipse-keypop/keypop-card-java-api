@@ -12,18 +12,22 @@
 package org.eclipse.keypop.card;
 
 /**
- * API properties.
+ * Immutable properties of the Card API.
+ *
+ * <p>See <a
+ * href="https://docs.terminal-api.calypsonet.org/calypsonet-terminal-card-uml-api/3.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-Card_v3.0.0-SNAPSHOT.html#type_CardApiProperties">CardApiProperties</a>
+ * for the normative contract.
  *
  * @since 1.0.0
  */
 public final class CardApiProperties {
 
   /**
-   * API version: {@value}
+   * Version of the API implemented by this binding, as a "MAJOR.MINOR" dotted decimal: {@value}
    *
    * @since 1.0.0
    */
-  public static final String VERSION = "2.0";
+  public static final String VERSION = "3.0";
 
   /** Private constructor */
   private CardApiProperties() {}
